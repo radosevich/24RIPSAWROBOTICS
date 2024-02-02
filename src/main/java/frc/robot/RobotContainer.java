@@ -5,11 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -67,6 +70,10 @@ public class RobotContainer {
   private void configureBindings() {
     // Configure the button bindings
 
+    // Button 3 controls the intake
+    new JoystickButton(m_operatorController, 2)
+      .whileTrue(new InstantCommand(m_intake::runIntake, m_intake))
+      .whileFalse(new InstantCommand(m_intake::stopIntake, m_intake));
   }
 
   public Command getAutonomousCommand() {
