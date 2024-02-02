@@ -70,7 +70,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Configure the button bindings
 
-    // Button 3 controls the intake
+    // Button 2 controls the intake
     new JoystickButton(m_operatorController, 2)
       .whileTrue(new InstantCommand(m_intake::runIntake, m_intake))
       .whileFalse(new InstantCommand(m_intake::stopIntake, m_intake));
