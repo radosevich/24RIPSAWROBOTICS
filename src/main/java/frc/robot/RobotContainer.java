@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -33,7 +32,8 @@ public class RobotContainer {
   // The robot's controllers
   private final CommandXboxController m_driverController = 
     new CommandXboxController(Constants.kDriverControllerPort);
-  private final Joystick m_operatorController = new Joystick(Constants.kOperatorControllerPort);
+  private final Joystick m_operatorController = 
+    new Joystick(Constants.kOperatorControllerPort);
 
   // The robot's autonomous commands
   Command m_autonomousCommand;
@@ -72,8 +72,7 @@ public class RobotContainer {
 
     // Button 2 controls the intake
     new JoystickButton(m_operatorController, 2)
-      .whileTrue(new InstantCommand(m_intake::runIntake, m_intake))
-      .whileFalse(new InstantCommand(m_intake::stopIntake, m_intake));
+      .whileTrue(m_intake.getIntakeCommand());
   }
 
   public Command getAutonomousCommand() {
