@@ -18,6 +18,11 @@ public final class Constants {
     // Drivetrain
 
     // Intake
+    // CAN IDs for motor controllers
+    public static int kHighIntakeID = 4; // Replace 4 with the actual value of kHighIntakeID
+    public static int kLowIntakeID = 5; // Replace 5 with the actual value of kLowIntakeID
+  
+    public static final double kIntakeSpeed = 0.5; // Update this with your desired intake speed
 
     // Shooter
 
