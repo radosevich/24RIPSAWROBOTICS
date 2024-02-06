@@ -22,8 +22,8 @@ public final class Constants {
     public static int kHighIntakeID = 4; // Replace 4 with the actual value of kHighIntakeID
     public static int kLowIntakeID = 5; // Replace 5 with the actual value of kLowIntakeID
   
-    public static final double kIntakeSpeed = 0.5; // Update this with your desired intake speed
-
+    public static final double kHighIntakeSpeed = -0.5; // Update this with your desired intake speed
+    public static final double kLowIntakeSpeed = 0.5; // Did it thanks bro
     // Shooter
 
     // Controllers

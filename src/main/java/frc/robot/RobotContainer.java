@@ -21,6 +21,7 @@ import frc.robot.Subsystems.Climb;
 import frc.robot.Subsystems.Drivetrain;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Shooter;
+ // Import the missing RunIntake class
 
 public class RobotContainer {
   // The robot's subsystems
@@ -69,10 +70,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Configure the button bindings
-
-    // Button 2 controls the intake
-    new JoystickButton(m_operatorController, 2)
-      .whileTrue(m_intake.getIntakeCommand());
+    // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
+    m_driverController.rightBumper().onTrue(new RunCommand(() -> m_intake.sethighintake(Constants.kHighIntakeSpeed)));
   }
 
   public Command getAutonomousCommand() {
