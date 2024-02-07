@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
    
   private boolean isIntakeOn = false; // Move this line to the top of the class
-  
+  private boolean isSpitOn = false;
+
   CANSparkMax m_highintake;
   CANSparkMax m_lowintake;
 
@@ -22,30 +23,54 @@ public class Intake extends SubsystemBase {
   }
   
   public void sethighintake(double speed) {
+        System.out.println("setHighintake");
     m_highintake.set(speed);
   }
   
   public void setlowintake(double speed) {
+    System.out.println("setLowintake");
     m_lowintake.set(speed);
   }
 
-  public void stop() {
-    m_highintake.set(0);
-    m_lowintake.set(0);
-  }
-
-  public Command getIntakeCommand() {
-    return new InstantCommand(() -> {
-      System.out.println("Intake command");
-      isIntakeOn = !isIntakeOn; 
-      if (isIntakeOn) {
-        System.out.println("Intake on");
-          sethighintake(-Constants.kIntakeSpeed);
-          setlowintake(Constants.kIntakeSpeed);
-      } else {
-          System.out.println("Intake off");
-          stop();
-      }
-    }, this); 
-  }
-  }
+    public void stop() {
+      m_highintake.set(0);
+      m_lowintake.set(0);
+    }
+   
+    public void slurp() {
+      sethighintake(Constants.kHighIntakeSpeed);
+      setlowintake(Constants.kLowIntakeSpeed);
+    }
+    public void spit() {
+      sethighintake(-Constants.kHighIntakeSpeed);
+      setlowintake(-Constants.kLowIntakeSpeed);
+    
+    }
+        public Command getIntakeCommand() {
+              return new InstantCommand(() -> {
+                System.out.println("Intake command");
+                isIntakeOn = !isIntakeOn;
+                if (isIntakeOn) {
+                  System.out.println("Intake on");
+                    sethighintake(Constants.kHighIntakeSpeed);
+                    setlowintake(Constants.kLowIntakeSpeed);
+                } else {
+                    System.out.println("Intake off");
+                }
+              }, this);
+           } // hi guys whats up
+           public Command getSpitCommand() {
+          return new InstantCommand(() -> {
+            System.out.println("Intake command");
+            isSpitOn = !isSpitOn;
+            if (isSpitOn) {
+              System.out.println("Intake on");
+                sethighintake(Constants.kHighIntakeSpeed);
+                setlowintake(Constants.kLowIntakeSpeed);
+            } else {
+                System.out.println("Intake off");
+            }
+          }, this);
+        }
+       } // Add this closing curly brace to complete the class body
+   

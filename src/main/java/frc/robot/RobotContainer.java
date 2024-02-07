@@ -33,9 +33,10 @@ public class RobotContainer {
   // The robot's controllers
   private final CommandXboxController m_driverController = 
     new CommandXboxController(Constants.kDriverControllerPort);
+  /*
   private final Joystick m_operatorController = 
     new Joystick(Constants.kOperatorControllerPort);
-
+  /* */
   // The robot's autonomous commands
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser;
@@ -71,7 +72,15 @@ public class RobotContainer {
   private void configureBindings() {
     // Configure the button bindings
     // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
-    m_driverController.rightBumper().onTrue(new RunCommand(() -> m_intake.sethighintake(Constants.kHighIntakeSpeed)));
+    m_driverController.rightBumper()
+    .whileTrue(new RunCommand(() -> m_intake.sethighintake(Constants.kHighIntakeSpeed)))
+    .onTrue(new RunCommand(() -> m_intake.setlowintake(Constants.kLowIntakeSpeed)))
+    .onFalse(new RunCommand(() -> m_intake.stop()));
+
+    m_driverController.leftBumper()
+    .whileTrue(new RunCommand(() -> m_intake.sethighintake(-Constants.kHighIntakeSpeed)))
+    .onTrue(new RunCommand(() -> m_intake.setlowintake(-Constants.kLowIntakeSpeed)))
+    .onFalse(new RunCommand(() -> m_intake.stop()));
   }
 
   public Command getAutonomousCommand() {
