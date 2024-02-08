@@ -37,16 +37,7 @@ public class Intake extends SubsystemBase {
       m_lowintake.set(0);
     }
    
-    public void slurp() {
-      sethighintake(Constants.kHighIntakeSpeed);
-      setlowintake(Constants.kLowIntakeSpeed);
-    }
-    public void spit() {
-      sethighintake(-Constants.kHighIntakeSpeed);
-      setlowintake(-Constants.kLowIntakeSpeed);
-    
-    }
-        public Command getIntakeCommand() {
+            public Command getIntakeCommand() {
               return new InstantCommand(() -> {
                 System.out.println("Intake command");
                 isIntakeOn = !isIntakeOn;
