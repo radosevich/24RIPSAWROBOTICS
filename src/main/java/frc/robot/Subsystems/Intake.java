@@ -32,12 +32,12 @@ public class Intake extends SubsystemBase {
     m_lowintake.set(speed);
   }
 
-    public void stop() {
+     public void stop() {
       m_highintake.set(0);
       m_lowintake.set(0);
     }
    
-            public Command getIntakeCommand() {
+           public Command getIntakeCommand() {
               return new InstantCommand(() -> {
                 System.out.println("Intake command");
                 isIntakeOn = !isIntakeOn;

@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.Subsystems;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
+  
   /** Creates a new Shooter. */
   public Shooter() {}
+ 
 
   @Override
   public void periodic() {

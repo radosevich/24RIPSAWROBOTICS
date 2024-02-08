@@ -74,12 +74,12 @@ public class RobotContainer {
     // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
     m_driverController.rightBumper()
     .whileTrue(new RunCommand(() -> m_intake.sethighintake(Constants.kHighIntakeSpeed)))
-    .onTrue(new RunCommand(() -> m_intake.setlowintake(Constants.kLowIntakeSpeed)))
+    .whileTrue(new RunCommand(() -> m_intake.setlowintake(Constants.kLowIntakeSpeed)))
     .onFalse(new RunCommand(() -> m_intake.stop()));
 
     m_driverController.leftBumper()
     .whileTrue(new RunCommand(() -> m_intake.sethighintake(-Constants.kHighIntakeSpeed)))
-    .onTrue(new RunCommand(() -> m_intake.setlowintake(-Constants.kLowIntakeSpeed)))
+    .whileTrue(new RunCommand(() -> m_intake.setlowintake(-Constants.kLowIntakeSpeed)))
     .onFalse(new RunCommand(() -> m_intake.stop()));
   }
 

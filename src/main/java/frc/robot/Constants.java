@@ -22,9 +22,9 @@ public final class Constants {
     public static int kHighIntakeID = 5; // Replace 4 with the actual value of kHighIntakeID
     public static int kLowIntakeID = 6; // Replace 5 with the actual value of kLowIntakeID
   
-    public static final double kHighIntakeSpeed = -0.25; // Update this with your desired intake speed
-    public static final double kLowIntakeSpeed = 0.25; // Did it thanks bro
-    // Shooter
+    public static final double kHighIntakeSpeed = -1; // Update this with your desired intake speed
+    public static final double kLowIntakeSpeed = 1; // Did it thanks bro
+    
 
     // Controllers
     public static final int kDriverControllerPort = 0;
