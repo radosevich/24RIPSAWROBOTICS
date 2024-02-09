@@ -16,16 +16,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.Commands.AutoDoNothing;
-
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.Subsystems.Climb;
 import frc.robot.Subsystems.Drivetrain;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Shooter;
- // Import the missing RunIntake class
+
 
 public class RobotContainer {
   // The robot's subsystems
-  private final Drivetrain m_drivetrain = new Drivetrain();
+  public final Drivetrain m_driveSubsystem = new Drivetrain();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Climb m_climb = new Climb();
@@ -33,6 +33,9 @@ public class RobotContainer {
   // The robot's controllers
   private final CommandXboxController m_driverController = 
     new CommandXboxController(Constants.kDriverControllerPort);
+  private final Joystick m_operatorstick = new Joystick(OperatorConstants.kOperatorStickPort);
+  private final XboxController m_driverstick = new XboxController(OperatorConstants.kDriverControllerPort);
+
   /*
   private final Joystick m_operatorController = 
     new Joystick(Constants.kOperatorControllerPort);
@@ -49,12 +52,8 @@ public class RobotContainer {
 
     // Teleop default command
     // Control the drive with split-stick arcade controls
-    m_drivetrain.setDefaultCommand(
-      new RunCommand(() -> m_drivetrain.arcadeDriveCommand(
-        -m_driverController.getLeftY(), 
-        -m_driverController.getRightX()), 
-        m_drivetrain));
-
+    m_driveSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_driveSubsystem.manualDrive(-m_operatorstick.getY(), -m_operatorstick.getX()), m_driveSubsystem));
     // Setup autonomous select commands
     m_chooser = new SendableChooser<>();
     m_chooser.setDefaultOption("Do nothing", new AutoDoNothing());
@@ -70,17 +69,28 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // Declare and initialize the m_operatorController variable
+    Joystick m_operatorController = new Joystick(Constants.kOperatorControllerPort);
+
     // Configure the button bindings
     // Move the arm to 2 radians above horizontal when the 'A' button is pressed.
     m_driverController.rightBumper()
-    .whileTrue(new RunCommand(() -> m_intake.sethighintake(Constants.kHighIntakeSpeed)))
-    .whileTrue(new RunCommand(() -> m_intake.setlowintake(Constants.kLowIntakeSpeed)))
+    .whileTrue(new RunCommand(() -> m_intake.IntakeStart()))
     .onFalse(new RunCommand(() -> m_intake.stop()));
 
     m_driverController.leftBumper()
     .whileTrue(new RunCommand(() -> m_intake.sethighintake(-Constants.kHighIntakeSpeed)))
     .whileTrue(new RunCommand(() -> m_intake.setlowintake(-Constants.kLowIntakeSpeed)))
     .onFalse(new RunCommand(() -> m_intake.stop()));
+
+    new JoystickButton(m_operatorController, 0)
+    .whileTrue(new RunCommand(() -> m_shooter.getShootCommand()))
+    .onFalse(new RunCommand(() -> m_shooter.stop()));
+
+    new JoystickButton(m_operatorController, 1)
+    .whileTrue(new RunCommand(() -> m_shooter.getArkhipovCommand()))
+    
+    .onFalse(new RunCommand(() -> m_shooter.stop()));
   }
 
   public Command getAutonomousCommand() {

@@ -16,7 +16,10 @@ public final class Constants {
     // Climb
 
     // Drivetrain
-
+    public static class OperatorConstants {
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorStickPort = 1;
+      }
     // Intake
     // CAN IDs for motor controllgiers
     public static int kHighIntakeID = 5; // Replace 4 with the actual value of kHighIntakeID
@@ -24,9 +27,14 @@ public final class Constants {
   
     public static final double kHighIntakeSpeed = -1; // Update this with your desired intake speed
     public static final double kLowIntakeSpeed = 1; // Did it thanks bro
-    
+    // Shooter
+    public static int kRightShooterID = 7; // Replace 7 with the actual value of kRightShooterID
+    public static int kLeftShooterID = 8;
 
+    public static final double kShooterSpeed = 0.25; 
     // Controllers
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
+
+    
 }

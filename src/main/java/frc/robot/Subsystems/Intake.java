@@ -31,7 +31,10 @@ public class Intake extends SubsystemBase {
     System.out.println("setLowintake");
     m_lowintake.set(speed);
   }
-
+  public void IntakeStart() {
+    sethighintake(Constants.kHighIntakeSpeed);
+    setlowintake(Constants.kLowIntakeSpeed);
+  }
      public void stop() {
       m_highintake.set(0);
       m_lowintake.set(0);
