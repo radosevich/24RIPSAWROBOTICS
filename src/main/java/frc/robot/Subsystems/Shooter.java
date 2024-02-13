@@ -9,6 +9,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants; // Import the Constants class
+
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.Timer; // Import the Timer class
 
 public class Shooter extends SubsystemBase {
@@ -16,53 +22,75 @@ public class Shooter extends SubsystemBase {
   private boolean isShooterOn = false;
   private boolean isArkhipovOn = false;
 
-  Talon m_rightshooter = new Talon(7);
-  Talon m_leftshooter = new Talon(8);
+  TalonSRX m_rightshooter = new TalonSRX(7);
+  TalonSRX m_leftshooter = new TalonSRX(8);
+  CANSparkMax m_highintake;
+  CANSparkMax m_lowintake;
+  public Shooter() {
+    // m_highintake = new CANSparkMax(Constants.kHighIntakeID, MotorType.kBrushless);
+    // m_lowintake = new CANSparkMax(Constants.kLowIntakeID, MotorType.kBrushless);
+  }
   /** Creates a new Shooter. */
 
   public void setrightshooter(double speed) {
-  m_rightshooter.set(speed);
+  m_rightshooter.set(ControlMode.PercentOutput, -.6);
   }
 
   public void setleftshooter(double speed) {
-  m_leftshooter.set(speed);
+  m_leftshooter.set(ControlMode.PercentOutput, .6);
+  }
+  public void sethighintake(double speed) {
+    System.out.println("setHighintake");
+  m_highintake.set(speed);
   }
 
+  public void setlowintake(double speed) {
+  System.out.println("setLowintake");
+  m_lowintake.set(speed);
+  }
+ public void stop() {
+  m_rightshooter.set(ControlMode.PercentOutput, 0);
+  m_leftshooter.set(ControlMode.PercentOutput, 0);
+ }
   public void ShooterTest() {
        setrightshooter(-Constants.kShooterSpeed);
        setleftshooter(Constants.kShooterSpeed);
     }
-  
-
   public void Arkhipov() {
     setrightshooter(Constants.kShooterSpeed);
     setleftshooter(-Constants.kShooterSpeed);
   }
-  public void stop() {
-    m_rightshooter.set(0);
-   m_leftshooter.set(0);
-  }
-
   public void ShooterStart() {
     long initTime = (long) Timer.getFPGATimestamp();
-      int millisecondsToRun = 1000; // Replace 1000 with the desired value
-      while (Timer.getFPGATimestamp() - initTime <= millisecondsToRun){
-        setrightshooter(-Constants.kShooterSpeed);
-        setleftshooter(Constants.kShooterSpeed);
-     }
-    } 
+    int millisecondsToRun = 100;
+    while (Timer.getFPGATimestamp() - initTime <= millisecondsToRun) {
+      setrightshooter(-Constants.kShooterSpeed);
+      setleftshooter(Constants.kShooterSpeed);
+    }
+    Timer.delay(0.6); // Delay for 600 milliseconds
+
+    initTime = (long) Timer.getFPGATimestamp();
+    millisecondsToRun = 1000;
+    while (Timer.getFPGATimestamp() - initTime <= millisecondsToRun) {
+      sethighintake(Constants.kHighIntakeSpeed);
+      setlowintake(Constants.kLowIntakeSpeed);
+    
+
+    stop();
+    } // Stop the shooter motors
+  }
+    
   public Command getShootCommand() {
-      System.out.println("Shoot Command");
      return new InstantCommand(() -> {
       System.out.println("Shoot Command");
       isShooterOn = !isShooterOn;
       if (isShooterOn) {
       System.out.println("woosh");
-     ShooterTest();
+      ShooterStart();
       } else {
      System.out.println("brrsht");
-     m_rightshooter.set(0);
-     m_leftshooter.set(0);
+     m_rightshooter.set(ControlMode.PercentOutput, 0);
+     m_leftshooter.set(ControlMode.PercentOutput, 0);
      }
   }, this);
  }
@@ -75,8 +103,8 @@ public class Shooter extends SubsystemBase {
         Arkhipov();
       } else {
         System.out.println("not brrsht");
-        m_rightshooter.set(0);
-        m_leftshooter.set(0);
+        m_rightshooter.set(ControlMode.PercentOutput, 0);
+        m_leftshooter.set(ControlMode.PercentOutput, 0);
       }
     }, this);
   }

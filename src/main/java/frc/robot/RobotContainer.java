@@ -31,10 +31,8 @@ public class RobotContainer {
   private final Climb m_climb = new Climb();
 
   // The robot's controllers
-  private final CommandXboxController m_driverController = 
-    new CommandXboxController(Constants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(Constants.kDriverControllerPort);
   private final Joystick m_operatorstick = new Joystick(OperatorConstants.kOperatorStickPort);
-  private final XboxController m_driverstick = new XboxController(OperatorConstants.kDriverControllerPort);
 
   /*
   private final Joystick m_operatorController = 
@@ -53,7 +51,7 @@ public class RobotContainer {
     // Teleop default command
     // Control the drive with split-stick arcade controls
     m_driveSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_driveSubsystem.manualDrive(-m_operatorstick.getY(), -m_operatorstick.getX()), m_driveSubsystem));
+      new RunCommand(() -> m_driveSubsystem.manualDrive(-m_driverController.getLeftY(), -m_driverController.getRightX()), m_driveSubsystem));
     // Setup autonomous select commands
     m_chooser = new SendableChooser<>();
     m_chooser.setDefaultOption("Do nothing", new AutoDoNothing());
@@ -83,13 +81,12 @@ public class RobotContainer {
     .whileTrue(new RunCommand(() -> m_intake.setlowintake(-Constants.kLowIntakeSpeed)))
     .onFalse(new RunCommand(() -> m_intake.stop()));
 
-    new JoystickButton(m_operatorController, 0)
-    .whileTrue(new RunCommand(() -> m_shooter.getShootCommand()))
+    m_driverController.a()
+    .whileTrue(new RunCommand(() -> m_shooter.ShooterStart()))
     .onFalse(new RunCommand(() -> m_shooter.stop()));
 
-    new JoystickButton(m_operatorController, 1)
-    .whileTrue(new RunCommand(() -> m_shooter.getArkhipovCommand()))
-    
+    m_driverController.b()
+    .whileTrue(new RunCommand(() -> m_shooter.Arkhipov()))
     .onFalse(new RunCommand(() -> m_shooter.stop()));
   }
 

@@ -39,7 +39,6 @@ public class Intake extends SubsystemBase {
       m_highintake.set(0);
       m_lowintake.set(0);
     }
-   
            public Command getIntakeCommand() {
               return new InstantCommand(() -> {
                 System.out.println("Intake command");
